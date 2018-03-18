@@ -127,6 +127,7 @@ mc = cast.media_controller
 print("Listening...")
 while True: # Infinite loop
     try: # If user pressed other than the given key error will not be shown
+    print(GPIO.input(STOPPIN))
         if GPIO.input(STOPPIN) == 0:
             print("Do stop")
             break
