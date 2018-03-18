@@ -5,6 +5,37 @@ import time
 import keyboard
 import os
 
+from EmulatorGUI import GPIO
+
+# GPIO Pins
+STOPPIN=20
+PLAYPAUSEPIN=21
+REWINDPIN=22
+FASTFORWARDPIN=23
+VOLUMEDOWNPIN=24
+VOLUMEUPPIN=25
+MUTEPIN=26
+
+
+# GPIO Configuration
+try:
+    GPIO.setmode(GPIO.BCM)
+ 
+    GPIO.setwarnings(False)
+    
+    GPIO.setup(STOPPIN, GPIO.IN) # Stop
+    GPIO.setup(PLAYPAUSEPIN, GPIO.IN) # Play/Pause
+    GPIO.setup(REWINDPIN, GPIO.IN) # Rewind
+    GPIO.setup(FASTFORWARDPIN, GPIO.IN) # Fast Forward
+    GPIO.setup(VOLUMEDOWNPIN, GPIO.IN) # Volume Down
+    GPIO.setup(VOLUMEUPPIN, GPIO.IN) # Volume Up
+    GPIO.setup(MUTEPIN, GPIO.IN) # Mute
+except Exception as ex:
+    traceback.print_exc()
+finally:
+    GPIO.cleanup() #this ensures a clean exit
+ 
+
 
 # Chromecast Name
 MYCAST = 'Castaway'
@@ -12,6 +43,8 @@ MYCAST = 'Castaway'
 # Increments
 SEEKINCREMENT = 10
 VOLUMEINCREMENT = 0.1
+
+
 
 
 if os.getuid() != 0:
@@ -93,26 +126,7 @@ mc = cast.media_controller
 print("Listening...")
 while True: # Infinite loop
     try: # If user pressed other than the given key error will not be shown
-        if keyboard.is_pressed('j'):
-            rewind()
-            time.sleep(.8)
-        elif keyboard.is_pressed('k'):
-            fastforward()
-            time.sleep(.8)
-        elif keyboard.is_pressed('v'):
-            decVolume()
-            time.sleep(.3)
-        elif keyboard.is_pressed('b'):
-            incVolume()
-            time.sleep(.3)
-        elif keyboard.is_pressed('n'):
-            toggleMute()
-            time.sleep(.8)
-        elif keyboard.is_pressed('m'):
-            togglePlay()
-            time.sleep(.8)
-        elif keyboard.is_pressed('q'):
-            break
+        if GPIO.input() == TRUE:
         else:
             pass
     except:
