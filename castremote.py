@@ -125,6 +125,7 @@ while True: # Infinite loop
         # False is pressed
         if GPIO.input(STOPPIN) == False:
             print("Do stop")
+            cast.quit_app()
             break
             time.sleep(1)
         elif GPIO.input(PLAYPAUSEPIN) == False:
