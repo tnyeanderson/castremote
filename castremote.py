@@ -23,13 +23,13 @@ GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
 
-GPIO.setup(STOPPIN, GPIO.IN) # Stop
-GPIO.setup(PLAYPAUSEPIN, GPIO.IN) # Play/Pause
-GPIO.setup(REWINDPIN, GPIO.IN) # Rewind
-GPIO.setup(FASTFORWARDPIN, GPIO.IN) # Fast Forward
-GPIO.setup(VOLUMEDOWNPIN, GPIO.IN) # Volume Down
-GPIO.setup(VOLUMEUPPIN, GPIO.IN) # Volume Up
-GPIO.setup(MUTEPIN, GPIO.IN) # Mute
+GPIO.setup(STOPPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Stop
+GPIO.setup(PLAYPAUSEPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Play/Pause
+GPIO.setup(REWINDPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Rewind
+GPIO.setup(FASTFORWARDPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Fast Forward
+GPIO.setup(VOLUMEDOWNPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Volume Down
+GPIO.setup(VOLUMEUPPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Volume Up
+GPIO.setup(MUTEPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Mute
 
 
 
