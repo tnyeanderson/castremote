@@ -19,22 +19,17 @@ MUTEPIN=20
 
 
 # GPIO Configuration
-try:
-    GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BCM)
 
-    GPIO.setwarnings(False)
+GPIO.setwarnings(False)
 
-    GPIO.setup(STOPPIN, GPIO.IN) # Stop
-    GPIO.setup(PLAYPAUSEPIN, GPIO.IN) # Play/Pause
-    GPIO.setup(REWINDPIN, GPIO.IN) # Rewind
-    GPIO.setup(FASTFORWARDPIN, GPIO.IN) # Fast Forward
-    GPIO.setup(VOLUMEDOWNPIN, GPIO.IN) # Volume Down
-    GPIO.setup(VOLUMEUPPIN, GPIO.IN) # Volume Up
-    GPIO.setup(MUTEPIN, GPIO.IN) # Mute
-except Exception as ex:
-    traceback.print_exc()
-finally:
-    GPIO.cleanup() #this ensures a clean exit
+GPIO.setup(STOPPIN, GPIO.IN) # Stop
+GPIO.setup(PLAYPAUSEPIN, GPIO.IN) # Play/Pause
+GPIO.setup(REWINDPIN, GPIO.IN) # Rewind
+GPIO.setup(FASTFORWARDPIN, GPIO.IN) # Fast Forward
+GPIO.setup(VOLUMEDOWNPIN, GPIO.IN) # Volume Down
+GPIO.setup(VOLUMEUPPIN, GPIO.IN) # Volume Up
+GPIO.setup(MUTEPIN, GPIO.IN) # Mute
 
 
 
@@ -156,3 +151,6 @@ while True: # Infinite loop
             pass
     except:
         continue
+
+
+GPIO.cleanup() #this ensures a clean exit
