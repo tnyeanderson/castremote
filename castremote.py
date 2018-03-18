@@ -20,9 +20,9 @@ MUTEPIN=26
 # GPIO Configuration
 try:
     GPIO.setmode(GPIO.BCM)
- 
+
     GPIO.setwarnings(False)
-    
+
     GPIO.setup(STOPPIN, GPIO.IN) # Stop
     GPIO.setup(PLAYPAUSEPIN, GPIO.IN) # Play/Pause
     GPIO.setup(REWINDPIN, GPIO.IN) # Rewind
@@ -34,7 +34,7 @@ except Exception as ex:
     traceback.print_exc()
 finally:
     GPIO.cleanup() #this ensures a clean exit
- 
+
 
 
 # Chromecast Name
@@ -126,7 +126,29 @@ mc = cast.media_controller
 print("Listening...")
 while True: # Infinite loop
     try: # If user pressed other than the given key error will not be shown
-        if GPIO.input() == TRUE:
+        if GPIO.input(STOPPIN):
+            print("Do stop")
+            time.sleep(1)
+        elif GPIO.input(PLAYPAUSEPIN):
+            togglePlay()
+            time.sleep(.8)
+        elif GPIO.input(REWINDPIN):
+            rewind()
+            time.sleep(.8)
+        elif GPIO.input(FASTFORWARDPIN):
+            fastforward()
+            time.sleep(.8)
+        elif GPIO.input(VOLUMEDOWNPIN):
+            decVolume()
+            time.sleep(.3)
+        elif GPIO.input(VOLUMEUPPIN):
+            incVolume()
+            time.sleep(.3)
+        elif GPIO.input(MUTEPIN):
+            toggleMute()
+            time.sleep(.8)
+        elif keyboard.is_pressed('q'):
+            break
         else:
             pass
     except:
