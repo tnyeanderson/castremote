@@ -127,26 +127,26 @@ mc = cast.media_controller
 print("Listening...")
 while True: # Infinite loop
     try: # If user pressed other than the given key error will not be shown
-        if GPIO.input(STOPPIN):
+        if GPIO.input(STOPPIN) == 0:
             print("Do stop")
             break
             time.sleep(1)
-        elif GPIO.input(PLAYPAUSEPIN):
+        elif GPIO.input(PLAYPAUSEPIN) == 0:
             togglePlay()
             time.sleep(.8)
-        elif GPIO.input(REWINDPIN):
+        elif GPIO.input(REWINDPIN) == 0:
             rewind()
             time.sleep(.8)
-        elif GPIO.input(FASTFORWARDPIN):
+        elif GPIO.input(FASTFORWARDPIN) == 0:
             fastforward()
             time.sleep(.8)
-        elif GPIO.input(VOLUMEDOWNPIN):
+        elif GPIO.input(VOLUMEDOWNPIN) == 0:
             decVolume()
             time.sleep(.3)
-        elif GPIO.input(VOLUMEUPPIN):
+        elif GPIO.input(VOLUMEUPPIN) == 0:
             incVolume()
             time.sleep(.3)
-        elif GPIO.input(MUTEPIN):
+        elif GPIO.input(MUTEPIN) == 0:
             toggleMute()
             time.sleep(.8)
         elif keyboard.is_pressed('q'):
