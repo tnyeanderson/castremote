@@ -128,21 +128,27 @@ while True: # Infinite loop
             break
             time.sleep(1)
         elif GPIO.input(PLAYPAUSEPIN) == 0:
+            print("PP")
             togglePlay()
             time.sleep(.8)
         elif GPIO.input(REWINDPIN) == 0:
+            print("RW")
             rewind()
             time.sleep(.8)
         elif GPIO.input(FASTFORWARDPIN) == 0:
+            print("FF")
             fastforward()
             time.sleep(.8)
         elif GPIO.input(VOLUMEDOWNPIN) == 0:
+            print("VD")
             decVolume()
             time.sleep(.3)
         elif GPIO.input(VOLUMEUPPIN) == 0:
+            print("VU")
             incVolume()
             time.sleep(.3)
         elif GPIO.input(MUTEPIN) == 0:
+            print("M")
             toggleMute()
             time.sleep(.8)
         elif keyboard.is_pressed('q'):
