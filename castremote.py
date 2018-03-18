@@ -23,13 +23,13 @@ GPIO.setmode(GPIO.BCM)
 
 GPIO.setwarnings(False)
 
-GPIO.setup(STOPPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Stop
-GPIO.setup(PLAYPAUSEPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Play/Pause
-GPIO.setup(REWINDPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Rewind
-GPIO.setup(FASTFORWARDPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Fast Forward
-GPIO.setup(VOLUMEDOWNPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Volume Down
-GPIO.setup(VOLUMEUPPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Volume Up
-GPIO.setup(MUTEPIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN) # Mute
+GPIO.setup(STOPPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Stop
+GPIO.setup(PLAYPAUSEPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Play/Pause
+GPIO.setup(REWINDPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Rewind
+GPIO.setup(FASTFORWARDPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Fast Forward
+GPIO.setup(VOLUMEDOWNPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Volume Down
+GPIO.setup(VOLUMEUPPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Volume Up
+GPIO.setup(MUTEPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Mute
 
 
 
@@ -122,31 +122,32 @@ mc = cast.media_controller
 print("Listening...")
 while True: # Infinite loop
     try: # If user pressed other than the given key error will not be shown
-        if GPIO.input(STOPPIN):
+        # False is pressed
+        if GPIO.input(STOPPIN) == False:
             print("Do stop")
             break
             time.sleep(1)
-        elif GPIO.input(PLAYPAUSEPIN):
+        elif GPIO.input(PLAYPAUSEPIN) == False:
             print("PP")
             togglePlay()
             time.sleep(.8)
-        elif GPIO.input(REWINDPIN):
+        elif GPIO.input(REWINDPIN) == False:
             print("RW")
             rewind()
             time.sleep(.8)
-        elif GPIO.input(FASTFORWARDPIN):
+        elif GPIO.input(FASTFORWARDPIN) == False:
             print("FF")
             fastforward()
             time.sleep(.8)
-        elif GPIO.input(VOLUMEDOWNPIN):
+        elif GPIO.input(VOLUMEDOWNPIN) == False:
             print("VD")
             decVolume()
             time.sleep(.3)
-        elif GPIO.input(VOLUMEUPPIN):
+        elif GPIO.input(VOLUMEUPPIN) == False:
             print("VU")
             incVolume()
             time.sleep(.3)
-        elif GPIO.input(MUTEPIN):
+        elif GPIO.input(MUTEPIN) == False:
             print("M")
             toggleMute()
             time.sleep(.8)
