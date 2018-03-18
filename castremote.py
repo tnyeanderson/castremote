@@ -155,5 +155,3 @@ while True: # Infinite loop
             pass
     except:
         continue
-
-raise SystemExit(0)
