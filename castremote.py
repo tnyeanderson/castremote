@@ -128,6 +128,7 @@ while True: # Infinite loop
     try: # If user pressed other than the given key error will not be shown
         if GPIO.input(STOPPIN):
             print("Do stop")
+            break
             time.sleep(1)
         elif GPIO.input(PLAYPAUSEPIN):
             togglePlay()
@@ -153,3 +154,5 @@ while True: # Infinite loop
             pass
     except:
         continue
+
+raise SystemExit(0)
