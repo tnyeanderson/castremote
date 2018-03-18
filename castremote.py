@@ -123,31 +123,31 @@ print("Listening...")
 while True: # Infinite loop
     print(GPIO.input(STOPPIN))
     try: # If user pressed other than the given key error will not be shown
-        if GPIO.input(STOPPIN) == 0:
+        if GPIO.input(STOPPIN):
             print("Do stop")
             break
             time.sleep(1)
-        elif GPIO.input(PLAYPAUSEPIN) == 0:
+        elif GPIO.input(PLAYPAUSEPIN):
             print("PP")
             togglePlay()
             time.sleep(.8)
-        elif GPIO.input(REWINDPIN) == 0:
+        elif GPIO.input(REWINDPIN):
             print("RW")
             rewind()
             time.sleep(.8)
-        elif GPIO.input(FASTFORWARDPIN) == 0:
+        elif GPIO.input(FASTFORWARDPIN):
             print("FF")
             fastforward()
             time.sleep(.8)
-        elif GPIO.input(VOLUMEDOWNPIN) == 0:
+        elif GPIO.input(VOLUMEDOWNPIN):
             print("VD")
             decVolume()
             time.sleep(.3)
-        elif GPIO.input(VOLUMEUPPIN) == 0:
+        elif GPIO.input(VOLUMEUPPIN):
             print("VU")
             incVolume()
             time.sleep(.3)
-        elif GPIO.input(MUTEPIN) == 0:
+        elif GPIO.input(MUTEPIN):
             print("M")
             toggleMute()
             time.sleep(.8)
