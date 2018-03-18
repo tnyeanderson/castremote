@@ -54,7 +54,7 @@ if os.getuid() != 0:
 
 # Functions
 def getCurrentTime():
-    return mc.status.get_seek_time()
+    return mc.status.adjusted_current_time()
 
 def incVolume():
     # Increase current volume to get new volume
