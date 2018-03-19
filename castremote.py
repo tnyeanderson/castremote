@@ -5,6 +5,33 @@ import time
 import keyboard
 import os
 
+import RPi.GPIO as GPIO
+
+# GPIO Pins
+STOPPIN=16
+PLAYPAUSEPIN=21
+REWINDPIN=18
+FASTFORWARDPIN=23
+VOLUMEDOWNPIN=24
+VOLUMEUPPIN=25
+MUTEPIN=20
+
+
+
+# GPIO Configuration
+GPIO.setmode(GPIO.BCM)
+
+GPIO.setwarnings(False)
+
+GPIO.setup(STOPPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Stop
+GPIO.setup(PLAYPAUSEPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Play/Pause
+GPIO.setup(REWINDPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Rewind
+GPIO.setup(FASTFORWARDPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Fast Forward
+GPIO.setup(VOLUMEDOWNPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Volume Down
+GPIO.setup(VOLUMEUPPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Volume Up
+GPIO.setup(MUTEPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Mute
+
+
 
 # Chromecast Name
 MYCAST = 'Castaway'
@@ -14,13 +41,15 @@ SEEKINCREMENT = 10
 VOLUMEINCREMENT = 0.1
 
 
+
+
 if os.getuid() != 0:
     print("Requires sudo privileges")
     raise SystemExit(0)
 
 # Functions
 def getCurrentTime():
-    return mc.status.get_seek_time()
+    return mc.status.adjusted_current_time()
 
 def incVolume():
     # Increase current volume to get new volume
@@ -93,23 +122,35 @@ mc = cast.media_controller
 print("Listening...")
 while True: # Infinite loop
     try: # If user pressed other than the given key error will not be shown
-        if keyboard.is_pressed('j'):
+        # False is pressed
+        if GPIO.input(STOPPIN) == False:
+            print("Do stop")
+            cast.quit_app()
+            break
+            time.sleep(1)
+        elif GPIO.input(PLAYPAUSEPIN) == False:
+            print("PP")
+            togglePlay()
+            time.sleep(.8)
+        elif GPIO.input(REWINDPIN) == False:
+            print("RW")
             rewind()
             time.sleep(.8)
-        elif keyboard.is_pressed('k'):
+        elif GPIO.input(FASTFORWARDPIN) == False:
+            print("FF")
             fastforward()
             time.sleep(.8)
-        elif keyboard.is_pressed('v'):
+        elif GPIO.input(VOLUMEDOWNPIN) == False:
+            print("VD")
             decVolume()
             time.sleep(.3)
-        elif keyboard.is_pressed('b'):
+        elif GPIO.input(VOLUMEUPPIN) == False:
+            print("VU")
             incVolume()
             time.sleep(.3)
-        elif keyboard.is_pressed('n'):
+        elif GPIO.input(MUTEPIN) == False:
+            print("M")
             toggleMute()
-            time.sleep(.8)
-        elif keyboard.is_pressed('m'):
-            togglePlay()
             time.sleep(.8)
         elif keyboard.is_pressed('q'):
             break
@@ -117,3 +158,6 @@ while True: # Infinite loop
             pass
     except:
         continue
+
+
+GPIO.cleanup() #this ensures a clean exit
