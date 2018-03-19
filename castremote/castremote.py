@@ -3,7 +3,7 @@ import pychromecast
 import time
 import os
 
-from EmulatorGUI import GPIO
+from .EmulatorGUI import GPIO
 # import RPi.GPIO as GPIO
 
 # Set module to `this`

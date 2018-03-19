@@ -1,1 +1,1 @@
-import castremote
+from castremote import *
