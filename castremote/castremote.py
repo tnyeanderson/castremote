@@ -178,7 +178,6 @@ def end():
 # Requrire sudo
 if os.getuid() != 0:
     print("Requires sudo privileges")
-    raise SystemExit(0)
 
 
 # GPIO Configuration
