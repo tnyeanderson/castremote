@@ -186,3 +186,5 @@ GPIO.setwarnings(False)
 
 this.config = Configuration()
 this.controls = Controls()
+
+print("Done")
