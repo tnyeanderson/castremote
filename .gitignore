@@ -1,7 +1,5 @@
-EmulatorGUI.py
-PIN.py
-tester2.py
-TypeChecker.py
+**/EmulatorGUI.py
+**/TypeChecker.py
 
 # Defaults
 
