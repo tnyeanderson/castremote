@@ -2,114 +2,142 @@
 
 import pychromecast
 import time
-import keyboard
 import os
 
 import RPi.GPIO as GPIO
 
-# GPIO Pins
-STOPPIN=16
-PLAYPAUSEPIN=21
-REWINDPIN=18
-FASTFORWARDPIN=23
-VOLUMEDOWNPIN=24
-VOLUMEUPPIN=25
-MUTEPIN=20
+# Class definitions
+class Pin:
+    def __init__(self, name, pin, action):
+        # Set attributes
+        self.name = name
+        self.pin = pin
+        self.action = action
+
+        # Initialize GPIO pin
+        GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+    @property
+    def pinValue(self):
+        # Returns the input value of the GPIO pin
+        return GPIO.input(self.pin)
 
 
+class Configuration:
+    # Default values
+    def __init__(self, cast_name, seek_increment=10, volume_increment=0.1):
+        # Set attributes
+        self.cast_name = cast_name
+        self.seek_increment = seek_increment
+        self.volume_increment = volume_increment
+        self.pins = []
 
-# GPIO Configuration
-GPIO.setmode(GPIO.BCM)
-
-GPIO.setwarnings(False)
-
-GPIO.setup(STOPPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Stop
-GPIO.setup(PLAYPAUSEPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Play/Pause
-GPIO.setup(REWINDPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Rewind
-GPIO.setup(FASTFORWARDPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Fast Forward
-GPIO.setup(VOLUMEDOWNPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Volume Down
-GPIO.setup(VOLUMEUPPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Volume Up
-GPIO.setup(MUTEPIN, GPIO.IN, pull_up_down=GPIO.PUD_UP) # Mute
-
+    def add_pin(name, pin, action):
+        # Add a GPIO pin configuration to the pins array
+        self.pins.append(Pin(name, pin, action))
 
 
-# Chromecast Name
-MYCAST = 'Castaway'
+class Controls:
+    @property
+    def getCurrentTime():
+        return mc.status.adjusted_current_time()
 
-# Increments
-SEEKINCREMENT = 10
-VOLUMEINCREMENT = 0.1
+    def incVolume():
+        # Increase current volume to get new volume
+        newVol = cast.status.volume_level + VOLUMEINCREMENT
+
+        # Make sure newvol has maximum value of 0
+        if newVol > 1: newVol = 1
+
+        # Set the volume if it's not at 1 already
+        if cast.status.volume_level != 1: cast.set_volume(newVol)
+        return
+
+    def decVolume():
+        # Decrease current volume to get new volume
+        newVol = cast.status.volume_level - VOLUMEINCREMENT
+
+        # Make sure newvol has minimum value of 0
+        if newVol > 1: newVol = 1
+
+        # Set the volume if it's not at 0 already
+        if cast.status.volume_level != 0: cast.set_volume(newVol)
+        return
+
+    def castPause():
+        mc.pause()
+        return
+
+    def castPlay():
+        mc.play()
+        return
+
+    def togglePlay():
+        if mc.status.player_state == 'PLAYING':
+            castPause()
+        else:
+            castPlay()
+        time.sleep(.8)
+        return
+
+    def toggleMute():
+        cast.set_volume_muted(not cast.status.volume_muted)
+        time.sleep(.8)
+        return
+
+    def rewind():
+        seek(getCurrentTime() - SEEKINCREMENT)
+        time.sleep(.8)
+        return
+
+    def fastforward():
+        seek(getCurrentTime() + SEEKINCREMENT)
+        time.sleep(.8)
+        return
+
+    def seek(newTime):
+        mc.seek(newTime)
+        return
+
+    def stop_casting():
+        cast.quit_app()
+        time.sleep(1)
+        return
 
 
+# Functions
+def start(pins):
+    print("Listening...")
+    while True: # Infinite loop
+        for pin in pins:
+            # False is pressed
+            if pin.pinValue() == False:
+                print("Doing " & pin.name)
+                pin.action()
+    end()
+
+def end():
+    GPIO.cleanup() # Ensures clean exit
 
 
+# Requrire sudo
 if os.getuid() != 0:
     print("Requires sudo privileges")
     raise SystemExit(0)
 
-# Functions
-def getCurrentTime():
-    return mc.status.adjusted_current_time()
 
-def incVolume():
-    # Increase current volume to get new volume
-    newVol = cast.status.volume_level + VOLUMEINCREMENT
-
-    # Make sure newvol has maximum value of 0
-    if newVol > 1: newVol = 1
-
-    # Set the volume if it's not at 1 already
-    if cast.status.volume_level != 1: cast.set_volume(newVol)
-    return
-
-def decVolume():
-    # Decrease current volume to get new volume
-    newVol = cast.status.volume_level - VOLUMEINCREMENT
-
-    # Make sure newvol has minimum value of 0
-    if newVol > 1: newVol = 1
-
-    # Set the volume if it's not at 0 already
-    if cast.status.volume_level != 0: cast.set_volume(newVol)
-    return
-
-def castPause():
-    mc.pause()
-    return
-
-def castPlay():
-    mc.play()
-    return
-
-def togglePlay():
-    if mc.status.player_state == 'PLAYING':
-        castPause()
-    else:
-        castPlay()
-    return
-
-def toggleMute():
-    cast.set_volume_muted(not cast.status.volume_muted)
-    return
-
-def rewind():
-    seek(getCurrentTime() - SEEKINCREMENT)
-
-def fastforward():
-    seek(getCurrentTime() + SEEKINCREMENT)
-
-def seek(newTime):
-    mc.seek(newTime)
-    return
+# GPIO Configuration
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 
 # Get chromecasts
 chromecasts = pychromecast.get_chromecasts()
 
-# Friendly Names
+# Get friendly names of chromecasts
 [cc.device.friendly_name for cc in chromecasts]
 
-# Set the chromecast based on MYCAST
+# Set the chromecast based on cast_name
 cast = next(cc for cc in chromecasts if cc.device.friendly_name == MYCAST)
 
 # Wait for the cast to load in
@@ -117,47 +145,3 @@ cast.wait()
 
 # Set media contoller
 mc = cast.media_controller
-
-
-print("Listening...")
-while True: # Infinite loop
-    try: # If user pressed other than the given key error will not be shown
-        # False is pressed
-        if GPIO.input(STOPPIN) == False:
-            print("Do stop")
-            cast.quit_app()
-            break
-            time.sleep(1)
-        elif GPIO.input(PLAYPAUSEPIN) == False:
-            print("PP")
-            togglePlay()
-            time.sleep(.8)
-        elif GPIO.input(REWINDPIN) == False:
-            print("RW")
-            rewind()
-            time.sleep(.8)
-        elif GPIO.input(FASTFORWARDPIN) == False:
-            print("FF")
-            fastforward()
-            time.sleep(.8)
-        elif GPIO.input(VOLUMEDOWNPIN) == False:
-            print("VD")
-            decVolume()
-            time.sleep(.3)
-        elif GPIO.input(VOLUMEUPPIN) == False:
-            print("VU")
-            incVolume()
-            time.sleep(.3)
-        elif GPIO.input(MUTEPIN) == False:
-            print("M")
-            toggleMute()
-            time.sleep(.8)
-        elif keyboard.is_pressed('q'):
-            break
-        else:
-            pass
-    except:
-        continue
-
-
-GPIO.cleanup() #this ensures a clean exit
