@@ -55,7 +55,7 @@ class Configuration:
 class Controls:
     @staticmethod
     def get_current_time():
-        return mc.status.adjusted_current_time()
+        return mc.status.adjusted_current_time
 
     @staticmethod
     def volume_inc():
