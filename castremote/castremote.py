@@ -33,7 +33,6 @@ class Pin:
         # Initialize GPIO pin
         GPIO.setup(self.pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-    @property
     def pinValue(self):
         # Returns the input value of the GPIO pin
         return GPIO.input(self.pin)
@@ -158,10 +157,10 @@ def setup(device_name=""):
 
     this.ready = True
 
-def start(pins):
+def start():
     print("Listening...")
     while True: # Infinite loop
-        for pin in pins:
+        for pin in config.pins:
             # False is pressed
             if pin.pinValue() == False:
                 print("Doing " + pin.name)
