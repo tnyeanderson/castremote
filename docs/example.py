@@ -1,6 +1,6 @@
 import castremote
 
-# With a chromecast named Caster the Friendly Host"
+# With a chromecast named "Caster the Friendly Host"
 castremote.setup("Caster the Friendly Host")
 
 # GPIO Pins
