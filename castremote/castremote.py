@@ -53,10 +53,11 @@ class Configuration:
 
 
 class Controls:
-    @property
+    @staticmethod
     def get_current_time():
         return mc.status.adjusted_current_time()
 
+    @staticmethod
     def volume_inc():
         # Increase current volume to get new volume
         newVol = cast.status.volume_level + VOLUMEINCREMENT
@@ -68,6 +69,7 @@ class Controls:
         if cast.status.volume_level != 1: cast.set_volume(newVol)
         return
 
+    @staticmethod
     def volume_dec():
         # Decrease current volume to get new volume
         newVol = cast.status.volume_level - VOLUMEINCREMENT
@@ -79,14 +81,17 @@ class Controls:
         if cast.status.volume_level != 0: cast.set_volume(newVol)
         return
 
+    @staticmethod
     def cast_pause():
         mc.pause()
         return
 
+    @staticmethod
     def cast_play():
         mc.play()
         return
 
+    @staticmethod
     def toggle_play():
         if mc.status.player_state == 'PLAYING':
             castPause()
@@ -95,25 +100,30 @@ class Controls:
         time.sleep(.8)
         return
 
+    @staticmethod
     def toggle_mute():
         cast.set_volume_muted(not cast.status.volume_muted)
         time.sleep(.8)
         return
 
+    @staticmethod
     def rewind():
         seek(getCurrentTime() - SEEKINCREMENT)
         time.sleep(.8)
         return
 
+    @staticmethod
     def fastforward():
         seek(getCurrentTime() + SEEKINCREMENT)
         time.sleep(.8)
         return
 
+    @staticmethod
     def seek(newTime):
         mc.seek(newTime)
         return
 
+    @staticmethod
     def stop_casting():
         cast.quit_app()
         time.sleep(1)
