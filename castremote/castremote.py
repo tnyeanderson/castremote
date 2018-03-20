@@ -114,6 +114,8 @@ class Controls:
 
     @staticmethod
     def fastforward():
+        print(controls.get_current_time())
+        print(config.seek_increment)
         controls.seek(controls.get_current_time() + config.seek_increment)
         time.sleep(.8)
         return
