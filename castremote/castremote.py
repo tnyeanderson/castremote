@@ -82,21 +82,21 @@ class Controls:
         return
 
     @staticmethod
-    def cast_pause():
+    def pause():
         mc.pause()
         return
 
     @staticmethod
-    def cast_play():
+    def play():
         mc.play()
         return
 
     @staticmethod
     def toggle_play():
         if mc.status.player_state == 'PLAYING':
-            castPause()
+            self.Pause()
         else:
-            castPlay()
+            self.Play()
         time.sleep(.8)
         return
 
@@ -108,13 +108,13 @@ class Controls:
 
     @staticmethod
     def rewind():
-        seek(getCurrentTime() - SEEKINCREMENT)
+        self.seek(self.getCurrentTime() - SEEKINCREMENT)
         time.sleep(.8)
         return
 
     @staticmethod
     def fastforward():
-        seek(getCurrentTime() + SEEKINCREMENT)
+        self.seek(getCurrentTime() + SEEKINCREMENT)
         time.sleep(.8)
         return
 
