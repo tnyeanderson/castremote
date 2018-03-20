@@ -60,7 +60,7 @@ class Controls:
     @staticmethod
     def volume_inc():
         # Increase current volume to get new volume
-        newVol = cast.status.volume_level + VOLUMEINCREMENT
+        newVol = cast.status.volume_level + config.volume_increment
 
         # Make sure newvol has maximum value of 0
         if newVol > 1: newVol = 1
@@ -72,7 +72,7 @@ class Controls:
     @staticmethod
     def volume_dec():
         # Decrease current volume to get new volume
-        newVol = cast.status.volume_level - VOLUMEINCREMENT
+        newVol = cast.status.volume_level - config.volume_increment
 
         # Make sure newvol has minimum value of 0
         if newVol > 1: newVol = 1
@@ -94,9 +94,9 @@ class Controls:
     @staticmethod
     def toggle_play():
         if mc.status.player_state == 'PLAYING':
-            self.Pause()
+            controls.pause()
         else:
-            self.Play()
+            controls.play()
         time.sleep(.8)
         return
 
@@ -108,13 +108,13 @@ class Controls:
 
     @staticmethod
     def rewind():
-        self.seek(self.getCurrentTime() - SEEKINCREMENT)
+        controls.seek(self.getCurrentTime() - config.seek_increment)
         time.sleep(.8)
         return
 
     @staticmethod
     def fastforward():
-        self.seek(getCurrentTime() + SEEKINCREMENT)
+        controls.seek(getCurrentTime() + config.seek_increment)
         time.sleep(.8)
         return
 
