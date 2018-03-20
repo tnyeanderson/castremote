@@ -3,8 +3,13 @@ import pychromecast
 import time
 import os
 
-from .EmulatorGUI import GPIO
-# import RPi.GPIO as GPIO
+
+try:
+    # Import GPIO
+    import RPi.GPIO as GPIO
+except ImportError:
+    # If we dont have GPIO, use the emulator
+    from .EmulatorGUI import GPIO
 
 # Set module to `this`
 this = sys.modules[__name__]
