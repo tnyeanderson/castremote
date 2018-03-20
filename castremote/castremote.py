@@ -108,13 +108,13 @@ class Controls:
 
     @staticmethod
     def rewind():
-        controls.seek(self.getCurrentTime() - config.seek_increment)
+        controls.seek(controls.get_current_time() - config.seek_increment)
         time.sleep(.8)
         return
 
     @staticmethod
     def fastforward():
-        controls.seek(getCurrentTime() + config.seek_increment)
+        controls.seek(controls.get_current_time() + config.seek_increment)
         time.sleep(.8)
         return
 
