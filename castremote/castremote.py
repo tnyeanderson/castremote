@@ -180,7 +180,8 @@ def start():
             if pin.pinValue() == False:
                 print("Doing " + pin.name)
                 pin.action()
-    end()
+        time.sleep(0.15)
+    this.end()
 
 
 def end():
