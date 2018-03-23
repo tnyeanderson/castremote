@@ -9,7 +9,9 @@ try:
     import RPi.GPIO as GPIO
 except ImportError:
     # If we dont have GPIO, use the emulator
-    from .EmulatorGUI import GPIO
+	pass
+    
+from .EmulatorGUI import GPIO
 
 # Set module to `this`
 this = sys.modules[__name__]
@@ -180,7 +182,8 @@ def start():
             if pin.pinValue() == False:
                 print("Doing " + pin.name)
                 pin.action()
-    end()
+        time.sleep(0.15)
+    this.end()
 
 
 def end():
