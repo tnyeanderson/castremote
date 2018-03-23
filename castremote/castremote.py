@@ -9,9 +9,9 @@ try:
     import RPi.GPIO as GPIO
 except ImportError:
     # If we dont have GPIO, use the emulator
+    # from .EmulatorGUI import GPIO
 	pass
-    
-from .EmulatorGUI import GPIO
+
 
 # Set module to `this`
 this = sys.modules[__name__]
