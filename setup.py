@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='castremote',
-    version='0.1.1',
+    version='0.1.2',
     description='Hardware Chromecast remote from a Pi Zero',
     url='http://github.com/tnyeanderson/castremote',
     author='Thomas Anderson',

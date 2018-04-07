@@ -1,1 +1,2 @@
 pychromecast>=2.1.0
+anygpio>=0.1.5
