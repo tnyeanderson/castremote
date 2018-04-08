@@ -194,13 +194,16 @@ def repeat_while_held(id, action, interval=0.3):
 	# Run the given action
 	action()
 
+	# Wait for interval (similar to bouncetime)
+	time.sleep(interval)
+
 	# While the button is held down
 	while GPIO.pin(id).test():
-		# Wait for interval (similar to bouncetime)
-		time.sleep(interval)
-
 		# Run the given action
 		action()
+
+		# Wait for interval (similar to bouncetime)
+		time.sleep(interval)
 
 
 
