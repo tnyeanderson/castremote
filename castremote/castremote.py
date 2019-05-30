@@ -3,8 +3,6 @@ import pychromecast
 import time
 import os
 
-from anygpio import GPIO
-
 # Set module to `this`
 this = sys.modules[__name__]
 
@@ -168,45 +166,23 @@ def setup(device_name):
 	# Let the user know
 	print("Ready!")
 
-def button(*args, **kwargs):
-	"""
-	Sets up a pin as input using anygpio
 
-	button(id, name, callback)
-	button(18, "STOP", controls.stop)
-	"""
-	GPIO.setup_pin(*args, **kwargs)
-
-def start():
-	"""
-	Uses event-driven GPIO to listen for all button presses
-
-	Registers the button's callback to provide Chromecast control
-	"""
-	GPIO._add_all_events(GPIO._get_input_pins_only())
-
-def repeat_while_held(id, action, interval=0.3):
-	"""
-	Repeats an action while a button is held down
-
-	Used with lambda functions as a button callback
-	"""
-	# Run the given action
-	action()
-
-	# While the button is held down
-	while GPIO.pin(id).test():
-		# Wait for interval (similar to bouncetime)
-		time.sleep(interval)
-
-		# Run the given action
-		action()
-
-
-
-# Require sudo
-if os.getuid() != 0:
-	print("Requires sudo privileges")
+#def repeat_while_held(id, action, interval=0.3):
+#	"""
+#	Repeats an action while a button is held down
+#
+#	Used with lambda functions as a button callback
+#	"""
+#	# Run the given action
+#	action()
+#
+#	# While the button is held down
+#	while GPIO.pin(id).test():
+#		# Wait for interval (similar to bouncetime)
+#		time.sleep(interval)
+#
+#		# Run the given action
+#		action()
 
 # Initialize the config and controls objects
 this.config = Configuration()
